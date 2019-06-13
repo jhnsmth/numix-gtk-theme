@@ -1,0 +1,21 @@
+#!/bin/bash
+#Taken from https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=numix-themes-green
+# cp src/assets/radio-{selected,checked}.svg
+# cp src/assets/radio-{selected,checked}-dark.svg
+for FILE in src/assets/*.svg
+do
+  sed -i 's/#f1544d/#859900/Ig' "${FILE}"
+  sed -i 's/#aaaaaa/#eee8d6/Ig' "${FILE}"
+  sed -i 's/#f9f9f9/#fdf6e3/Ig' "${FILE}"
+  sed -i 's/#d64937/#859900/Ig' "${FILE}" # for radio-selected.svg and checkbox-checked.svg
+#  if [[ -f ${FILE%.svg}.png ]]
+#  then
+#    convert -resize 16x16 -background none "${FILE}" "${FILE%.svg}.png"
+#  fi
+done
+rm src/assets/*.png
+cd scripts
+./render-assets.sh
+cd ..
+convert -resize 16x16 -background none src/assets/radio-selected.svg src/assets/radio-checked.png
+convert -resize 16x16 -background none src/assets/checkbox-checked.svg src/assets/checkbox-checked.png
